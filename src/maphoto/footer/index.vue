@@ -4,6 +4,9 @@
       <img src="@/assets/icon/locate.png" alt="" />
       <img src="@/assets/icon/about.png" alt="" />
     </div>
+    <div class="home-btn">
+      <div class="inner"></div>
+    </div>
   </div>
 </template>
 
@@ -15,7 +18,6 @@ export default {
   data() {
     return {};
   },
-  setup() {},
   mounted() {},
   unmounted() {},
   methods: {},
@@ -35,6 +37,21 @@ export default {
     padding: 20px;
     img {
       width: 20px;
+    }
+  }
+  .home-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 1%;
+    left: 0%;
+    .inner {
+      width: 35%;
+      height: 3px;
+      background: #fff;
     }
   }
 }

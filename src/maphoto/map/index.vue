@@ -25,10 +25,9 @@ export default {
         target: "map-container",
         layers: [
           new Tile({
-            title: "天地图矢量图层",
+            title: "高德影像地图",
             source: new XYZ({
-              url: "http://t0.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=" + tk,
-              wrapX: false,
+              url: "http://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
             }),
           }),
           new Tile({

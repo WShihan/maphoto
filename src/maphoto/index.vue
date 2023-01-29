@@ -60,11 +60,11 @@ export default {
     background: rgb(35, 38, 55);
     .header-out {
       width: 100%;
-      height: 5%;
+      height: 4%;
     }
     .map-out {
       width: 100%;
-      height: 85%;
+      height: 86%;
     }
     .footer-out {
       width: 100%;
