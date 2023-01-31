@@ -21,7 +21,9 @@ export default {
   props: {},
   components: { Header, Footer, Map },
   data() {
-    return {};
+    return {
+      photoPopupVisible: false,
+    };
   },
   mounted() {},
   unmounted() {},
