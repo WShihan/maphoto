@@ -34,9 +34,9 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 5vw;
     img {
-      width: 20px;
+      width: 7vw;
     }
   }
   .home-btn {
@@ -50,7 +50,8 @@ export default {
     left: 0%;
     .inner {
       width: 35%;
-      height: 3px;
+      height: 1vw;
+      border-radius: 0.5vw;
       background: #fff;
     }
   }

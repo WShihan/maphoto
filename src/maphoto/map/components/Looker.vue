@@ -23,9 +23,9 @@ export default {
       type: Array,
       default: () => {
         return [
-          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BA%20red.svg",
-          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BAblue.svg",
-          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BAcyan.svg",
+          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/pic/image-20220328152305216.png",
+          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/map/lijaing.jpeg",
+          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/map/Yn_light_lego.jpeg",
           "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BAgreen.svg",
         ];
       },
@@ -60,10 +60,10 @@ export default {
 <style scoped lang="less">
 .looker {
   position: fixed;
-  top: 10vh;
+  top: 10%;
   left: 2vw;
   width: 96vw;
-  height: 50vh;
+  height: 60%;
   border-radius: 1vw;
   background: rgba(35, 38, 55, 0.932);
   .looker-inner {
@@ -75,7 +75,7 @@ export default {
     width: 100%;
     height: 100%;
     img {
-      width: 100%;
+      width: 90%;
       margin: 0px auto;
     }
   }
@@ -95,6 +95,9 @@ export default {
       top: 1vw;
       right: 2vw;
       width: 5vw;
+    }
+    &:hover {
+      background-color: rgba(18, 93, 206, 0.459);
     }
     img {
       width: 100%;

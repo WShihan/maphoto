@@ -87,14 +87,14 @@ export default {
   align-items: center;
 }
 .navs {
-  padding: 1px;
-  border-radius: 5px;
+  border-radius: 1.5vw;
   background: rgb(52, 67, 107);
 
   .nav-item {
     text-align: center;
     color: #fff;
-    border-radius: 5px;
+    padding: 1vw;
+    border-radius: 1vw;
     cursor: pointer;
     &.active {
       background: rgb(110, 113, 130);

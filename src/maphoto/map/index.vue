@@ -1,7 +1,9 @@
 <template>
   <div style="width: 100%; height: 100%">
     <div id="map-container"></div>
-    <Looker v-if="popup.open" @close="popup.open = false" />
+    <Transition>
+      <Looker v-if="popup.open" @close="popup.open = false" />
+    </Transition>
   </div>
 </template>
 
@@ -27,6 +29,16 @@ export default {
 </script>
 
 <style scoped lang="less">
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.7s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 #map-container {
   width: 100%;
   height: 100%;

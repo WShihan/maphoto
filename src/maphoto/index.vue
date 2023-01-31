@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" :style="mainStyle">
     <div class="header-out">
       <Header />
     </div>
@@ -22,14 +22,23 @@ export default {
   components: { Header, Footer, Map },
   data() {
     return {
+      screenHeight: 0,
       photoPopupVisible: false,
     };
   },
-  mounted() {},
+  beforeMount() {},
+  mounted() {
+    this.screenHeight = window.innerHeight;
+  },
   unmounted() {},
-  methods: {},
-  watch: {},
-  computed: {},
+  computed: {
+    mainStyle() {
+      return {
+        width: "100vw",
+        height: this.screenHeight + "px",
+      };
+    },
+  },
 };
 </script>
 
@@ -37,7 +46,6 @@ export default {
 @media (min-width: 1000px) {
   .main {
     width: 40vw;
-    height: 100vh;
     margin: 0px auto;
     background: rgb(35, 38, 55);
     .header-out {
@@ -57,16 +65,15 @@ export default {
 @media (min-width: 0rem) and (max-width: 1000px) {
   .main {
     width: 100vw;
-    height: 100vh;
     margin: 0px auto;
     background: rgb(35, 38, 55);
     .header-out {
       width: 100%;
-      height: 4%;
+      height: 5%;
     }
     .map-out {
       width: 100%;
-      height: 86%;
+      height: 85%;
     }
     .footer-out {
       width: 100%;

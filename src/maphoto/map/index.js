@@ -53,7 +53,7 @@ export function initialMap() {
   //   创建样式
   function genStyle(
     text = "",
-    iconPath = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/icons/vue.png"
+    iconPath = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/temp/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20230131221642.jpg"
   ) {
     return new Style({
       image: new Icon({
@@ -64,7 +64,7 @@ export function initialMap() {
         offsetOrigin: "top-right",
         // offset:[0,10],
         //图标缩放比例
-        scale: 0.2,
+        scale: 0.05,
         //透明度
         opacity: 0.75,
         //图标的url
@@ -78,7 +78,7 @@ export function initialMap() {
         textAlign: "center",
         justify: "center",
         offsetX: 20,
-        offsetY: -10,
+        offsetY: 10,
         placement: "point",
         //基准线
         textBaseline: "middle",
@@ -87,8 +87,8 @@ export function initialMap() {
         //文本填充样式（即文字颜色）
         fill: new Fill({ color: "#fff" }),
         stroke: new Stroke({ color: "#ffffff", width: 0 }),
-        backgroundFill: new Fill({ color: "blue" }),
       }),
+      stroke: new Stroke({ color: "white", width: 2, lineCap: "round" }),
     });
   }
 
@@ -114,8 +114,7 @@ export function initialMap() {
           var size = feature.get("features").length;
           var style = styleCache[size];
           if (!style) {
-            if (feature.get("features")[0].get("中类").search("铁") >= 0) style = genStyle(size);
-            else style = genStyle(size, icons[0]);
+            style = genStyle(size);
             styleCache[size] = style;
           }
           return style;
@@ -139,7 +138,7 @@ export function initialMap() {
       clusterLyr.getFeatures(event.pixel).then((features) => {
         if (features.length > 0) {
           state.popup.open = true;
-          console.log(features[0].get("features"));
+          console.log(features.length);
         } else {
           state.popup.open = false;
         }
