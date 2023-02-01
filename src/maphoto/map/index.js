@@ -22,6 +22,7 @@ export function initialMap() {
     "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BA%20red.svg",
     "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BAblue.svg",
   ];
+  const photoBaseUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/";
   //   创建地图及图层
   function createMap() {
     map = new Map({
@@ -64,7 +65,7 @@ export function initialMap() {
         offsetOrigin: "top-right",
         // offset:[0,10],
         //图标缩放比例
-        scale: 0.05,
+        scale: 0.015,
         //透明度
         opacity: 0.75,
         //图标的url
@@ -112,12 +113,8 @@ export function initialMap() {
         source: clusterSource,
         style: (feature, resolution) => {
           var size = feature.get("features").length;
-          var style = styleCache[size];
-          if (!style) {
-            style = genStyle(size);
-            styleCache[size] = style;
-          }
-          return style;
+          const src = feature.get("features")[0].get("icon");
+          return genStyle(size, photoBaseUrl + src);
         },
       });
       //   添加图层
@@ -135,10 +132,22 @@ export function initialMap() {
   //   绑定点击事件
   function bindClickEvt() {
     map.on("click", (event) => {
-      clusterLyr.getFeatures(event.pixel).then((features) => {
-        if (features.length > 0) {
+      state.popup.srcs.length = 0;
+      clusterLyr.getFeatures(event.pixel).then((clusterFeat) => {
+        if (clusterFeat.length > 0) {
           state.popup.open = true;
-          console.log(features.length);
+          const features = clusterFeat[0].get("features");
+          if (features.length > 0) {
+            features.forEach((feat) => {
+              state.popup.srcs.push(photoBaseUrl + feat.get("icon"));
+              const srcs = feat.get("srcs");
+              if (srcs) {
+                srcs.split("/").forEach((src) => {
+                  state.popup.srcs.push(photoBaseUrl + src);
+                });
+              }
+            });
+          }
         } else {
           state.popup.open = false;
         }

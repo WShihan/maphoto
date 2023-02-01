@@ -11,7 +11,7 @@ export function getPhotos() {
           srsName: "epsg:3857",
           version: "2.0.0",
           request: "GetFeature",
-          typeName: "POI:Hangzhou_poi_transport",
+          typeName: "Yunnan:maphoto",
           outputFormat: "JSON",
           count: 500,
           //   cql_filter: `"中类"='地铁站'`,

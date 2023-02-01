@@ -2,7 +2,7 @@
   <div style="width: 100%; height: 100%">
     <div id="map-container"></div>
     <Transition>
-      <Looker v-if="popup.open" @close="popup.open = false" />
+      <Looker v-if="popup.open" :srcs="popup.srcs" @close="popup.open = false" />
     </Transition>
   </div>
 </template>

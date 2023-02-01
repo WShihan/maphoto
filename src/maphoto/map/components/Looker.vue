@@ -3,14 +3,24 @@
     <div class="looker-inner">
       <img :src="srcs[currentSrcIndex]" />
     </div>
-    <div class="btn right" @click="towardLook">
-      <img src="@/assets/icon/right.svg" alt="" />
-    </div>
-    <div class="btn left" @click="backwardLook">
-      <img src="@/assets/icon/left.svg" alt="" />
-    </div>
     <div class="btn close" @click="this.$emit('close')">
       <img src="@/assets/icon/close.svg" alt="" />
+    </div>
+    <div class="img-handle">
+      <div class="btn left" @click="backwardLook">
+        <img src="@/assets/icon/left.svg" alt="" />
+      </div>
+      <div class="tip">
+        <div
+          :class="['tip-item', k === currentSrcIndex ? 'active' : '']"
+          :title="k"
+          v-for="(item, k) in srcs"
+          :key="k"
+        ></div>
+      </div>
+      <div class="btn right" @click="towardLook">
+        <img src="@/assets/icon/right.svg" alt="" />
+      </div>
     </div>
   </div>
 </template>
@@ -63,11 +73,10 @@ export default {
   top: 10%;
   left: 2vw;
   width: 96vw;
-  height: 60%;
+  min-height: 45%;
   border-radius: 1vw;
   background: rgba(35, 38, 55, 0.932);
   .looker-inner {
-    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -76,29 +85,53 @@ export default {
     height: 100%;
     img {
       width: 90%;
-      margin: 0px auto;
+      margin: 5% auto;
     }
   }
   .btn {
-    position: absolute;
-    top: 80%;
     width: 10vw;
     z-index: 999;
     cursor: pointer;
-    &.right {
-      right: 1vw;
+    img {
+      width: 100%;
     }
-    &.left {
-      left: 1vw;
+  }
+  .img-handle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 96vw;
+    min-height: 4vh;
+    padding: 1vw;
+    margin: 0vw auto 1vh;
+    .tip {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 70%;
+      height: 100%;
+      .tip-item {
+        width: 10px;
+        height: 10px;
+        margin: 0vw 0.5vw;
+        border-radius: 5px;
+        background: rgb(77, 93, 153);
+        &.active {
+          background: rgb(6, 126, 247);
+        }
+      }
     }
-    &.close {
-      top: 1vw;
-      right: 2vw;
-      width: 5vw;
-    }
-    &:hover {
-      background-color: rgba(18, 93, 206, 0.459);
-    }
+  }
+  .close {
+    position: absolute;
+    top: 80%;
+    top: 1vw;
+    right: 2vw;
+    width: 8vw;
+    cursor: pointer;
     img {
       width: 100%;
     }
