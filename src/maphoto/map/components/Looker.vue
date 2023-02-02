@@ -34,9 +34,6 @@ export default {
       default: () => {
         return [
           "https://md-1301600412.cos.ap-nanjing.myqcloud.com/pic/image-20220328152305216.png",
-          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/map/lijaing.jpeg",
-          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/map/Yn_light_lego.jpeg",
-          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BAgreen.svg",
         ];
       },
     },
@@ -84,12 +81,12 @@ export default {
     width: 100%;
     height: 100%;
     img {
-      width: 90%;
-      margin: 5% auto;
+      width: 98%;
+      margin: 1% auto;
     }
   }
   .btn {
-    width: 10vw;
+    width: 6vw;
     z-index: 999;
     cursor: pointer;
     img {
@@ -102,9 +99,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 96vw;
-    min-height: 4vh;
-    padding: 1vw;
-    margin: 0vw auto 1vh;
+    min-height: 2vh;
+    margin: 0vw auto 0.5vh;
     .tip {
       display: flex;
       flex-direction: row;
@@ -114,10 +110,10 @@ export default {
       width: 70%;
       height: 100%;
       .tip-item {
-        width: 10px;
-        height: 10px;
+        width: 2vw;
+        height: 2vw;
         margin: 0vw 0.5vw;
-        border-radius: 5px;
+        border-radius: 1vw;
         background: rgb(77, 93, 153);
         &.active {
           background: rgb(6, 126, 247);
@@ -130,7 +126,7 @@ export default {
     top: 80%;
     top: 1vw;
     right: 2vw;
-    width: 8vw;
+    width: 6vw;
     cursor: pointer;
     img {
       width: 100%;
