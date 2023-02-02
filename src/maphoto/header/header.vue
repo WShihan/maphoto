@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="navs">
-      <Navigation :btn-width="'80px'" />
+      <Navigation :btn-width="'80px'" @change="true" />
     </div>
   </div>
 </template>

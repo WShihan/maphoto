@@ -1,9 +1,10 @@
 <template>
   <div class="footer">
-    <div class="btns">
+    <div class="btns" v-if="showNav">
       <img src="@/assets/icon/locate.png" alt="" />
       <img src="@/assets/icon/about.png" alt="" />
     </div>
+    <Navigation v-else :navs="navs" @change="change" />
     <div class="home-btn">
       <div class="inner"></div>
     </div>
@@ -11,16 +12,30 @@
 </template>
 
 <script>
+import Navigation from "@/components/Navigation.vue";
+import { layerChange, layerAdd, layerAddPhoto } from "@/utils/layerManager";
+
 export default {
   name: "Footer",
   props: {},
-  components: {},
+  components: { Navigation },
   data() {
-    return {};
+    return {
+      showNav: false,
+      navs: [
+        { name: "street", title: "街区" },
+        { name: "label", title: "混合" },
+        { name: "satellite", title: "卫星" },
+      ],
+    };
   },
   mounted() {},
   unmounted() {},
-  methods: {},
+  methods: {
+    change(nav) {
+      layerChange(nav.name);
+    },
+  },
   watch: {},
   computed: {},
 };

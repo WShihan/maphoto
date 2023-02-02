@@ -55,6 +55,7 @@ export default {
   methods: {
     choose(nav) {
       this.active = nav.name;
+      this.$emit("change", nav);
     },
   },
   watch: {},
