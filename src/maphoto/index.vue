@@ -1,13 +1,13 @@
 <template>
   <div class="main" :style="mainStyle">
     <div class="header-out">
-      <Header />
+      <Header :changeUI="mapControl" @change="mapControl = false" />
     </div>
     <div class="map-out">
       <Map />
     </div>
     <div class="footer-out">
-      <Footer />
+      <Footer :map-control="mapControl" @rightClick="mapControl = true" />
     </div>
   </div>
 </template>
@@ -24,6 +24,7 @@ export default {
     return {
       screenHeight: 0,
       photoPopupVisible: false,
+      mapControl: false,
     };
   },
   beforeMount() {},

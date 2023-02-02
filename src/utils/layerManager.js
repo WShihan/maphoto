@@ -4,6 +4,17 @@ import { fromLonLat } from "ol/proj";
 import { getPhotos } from "@/api/index";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
+export class MapEnum {
+  static get Street() {
+    return "street";
+  }
+  static get Mix() {
+    return "mix";
+  }
+  static get Satellite() {
+    return "satellite";
+  }
+}
 
 //   创建样式
 function genStyle(
@@ -80,36 +91,6 @@ export function layerAdd(name) {
       break;
   }
 }
-
-/**
- * @description
- * @export
- * @param {Array} names
- * @param {boolean} [reverse=true]
- */
-export function layerRemove(names, reverse = true) {
-  let map = window.map;
-  const layers = map.getAllLayers();
-  layers.forEach((lyr) => {
-    if (lyr.getProperties().name in names) {
-      if (!reverse) map.removeLayer(lyr);
-    } else {
-      if (reverse) map.removeLayer(lyr);
-    }
-  });
-}
-
-export function layerChange(type) {
-  let map = window.map;
-  switch (type) {
-    case "street":
-      layerRemove("satellite");
-      break;
-    case "satellite":
-      layerRemove(["street", "label"]);
-      map.addLayer(layerAdd(type));
-  }
-}
 export function layerAddPhoto() {
   return new Promise((resolve, reject) => {
     getPhotos().then((data) => {
@@ -140,4 +121,42 @@ export function layerAddPhoto() {
       });
     });
   });
+}
+
+/**
+ * @description
+ * @export
+ * @param {Array} names
+ * @param {boolean} [reverse=false]
+ */
+export function layerRemove(names, reverse = false) {
+  let map = window.map;
+  const layers = map.getAllLayers();
+  layers.forEach((lyr) => {
+    if (names.find((item) => item === lyr.getProperties().name)) {
+      if (!reverse) map.removeLayer(lyr);
+    } else {
+      if (reverse) map.removeLayer(lyr);
+    }
+  });
+}
+
+export function layerChange(type) {
+  let map = window.map;
+  switch (type) {
+    case MapEnum.Street:
+      layerRemove(["maphoto"], true);
+      map.addLayer(layerAdd(type));
+      break;
+    case MapEnum.Mix:
+      layerRemove(["street", "satellite"]);
+      map.addLayer(layerAdd("label"));
+      map.addLayer(layerAdd("satellite"));
+      break;
+
+    case MapEnum.Satellite:
+      layerRemove(["maphoto"], true);
+      map.addLayer(layerAdd(type));
+      break;
+  }
 }

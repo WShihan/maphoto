@@ -18,7 +18,7 @@ export function initialMap() {
   function createMap() {
     map = new Map({
       target: "map-container",
-      layers: [layerAdd("street"), layerAdd("label")],
+      layers: [layerAdd("street")],
       view: new View({
         center: fromLonLat([118, 39]),
         zoom: 6,

@@ -1,7 +1,7 @@
 <template>
   <div class="looker">
     <div class="looker-inner">
-      <img :src="srcs[currentSrcIndex]" />
+      <img v-for="(src, k) in srcs" :key="k" :src="src" v-show="currentSrcIndex === k" />
     </div>
     <div class="btn close" @click="this.$emit('close')">
       <img src="@/assets/icon/close.svg" alt="" />
@@ -55,7 +55,7 @@ export default {
       if (this.currentSrcIndex > 0) {
         this.currentSrcIndex -= 1;
       } else {
-        this.currentSrcIndex = this.srcs.len - 1;
+        this.currentSrcIndex = this.srcs.length - 1;
       }
     },
   },
@@ -70,7 +70,7 @@ export default {
   top: 10%;
   left: 2vw;
   width: 96vw;
-  min-height: 45%;
+  min-height: 25%;
   border-radius: 1vw;
   background: rgba(35, 38, 55, 0.932);
   .looker-inner {
