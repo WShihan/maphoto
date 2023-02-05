@@ -92,7 +92,7 @@ export function initialMap() {
       });
       //   创建聚合数据源
       let clusterSource = new Cluster({
-        distance: 80,
+        distance: 30,
         source: vecSource,
       });
       //   创建图层
