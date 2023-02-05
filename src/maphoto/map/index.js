@@ -21,11 +21,9 @@ export function initialMap() {
 
   /** @type {VectorLayer} */
   let clusterLyr;
-  const photoBaseUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/";
-  const icons = [
-    "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BA%20red.svg",
-    "https://md-1301600412.cos.ap-nanjing.myqcloud.com/GIS/img/%E6%99%AF%E7%82%B9%E6%99%AF%E5%8C%BAblue.svg",
-  ];
+  const thumbUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/";
+  const photoUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/photos/";
+
   //   创建地图及图层
   function createMap() {
     map = new Map({
@@ -44,7 +42,7 @@ export function initialMap() {
   //   创建样式
   function genStyle(
     text = "",
-    iconPath = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/IMG_20210815_151704.jpg"
+    iconPath = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/3c42f1c8befeeb7b.png"
   ) {
     return new Style({
       image: new Icon({
@@ -55,7 +53,7 @@ export function initialMap() {
         offsetOrigin: "top-right",
         // offset:[0,10],
         //图标缩放比例
-        scale: 0.01,
+        scale: 0.2,
         //透明度
         opacity: 0.75,
         //图标的url
@@ -68,24 +66,23 @@ export function initialMap() {
         //位置
         textAlign: "center",
         justify: "center",
-        offsetX: 20,
-        offsetY: -10,
+        offsetX: 15,
+        offsetY: -5,
         placement: "point",
         //基准线
         textBaseline: "middle",
         //文字样式
         font: "normal 12px 微软雅黑",
         //文本填充样式（即文字颜色）
-        fill: new Fill({ color: "#fff" }),
-        stroke: new Stroke({ color: "#ffffff", width: 0 }),
-        backgroundFill: new Fill({ color: "blue" }),
+        fill: new Fill({ color: "black" }),
+        // stroke: new Stroke({ color: "#gray", width: 0 }),
+        backgroundFill: new Fill({ color: "#fff" }),
       }),
     });
   }
 
   //   加载点资源
   function loadPhoto() {
-    var styleCache = {};
     getPhotos().then((data) => {
       // 创建矢量数据源
       let vecSource = new VectorSource({
@@ -106,12 +103,7 @@ export function initialMap() {
         style: (feature, resolution) => {
           var clusterFeats = feature.get("features");
           const size = clusterFeats.length;
-          var style = styleCache[size];
-          if (!style) {
-            style = genStyle(size);
-            styleCache[size] = style;
-          }
-          return style;
+          return genStyle(size, thumbUrl + clusterFeats[0].get("icon"));
         },
       });
       //   添加图层
@@ -138,11 +130,10 @@ export function initialMap() {
             const features = clusterFeat[0].get("features");
             if (features.length > 0) {
               features.forEach((feat) => {
-                state.popup.srcs.push(photoBaseUrl + feat.get("icon"));
                 const srcs = feat.get("srcs");
                 if (srcs) {
                   srcs.split("/").forEach((src) => {
-                    state.popup.srcs.push(photoBaseUrl + src);
+                    state.popup.srcs.push(photoUrl + src);
                   });
                 }
               });

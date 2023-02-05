@@ -67,9 +67,9 @@ export default {
 <style scoped lang="less">
 .looker {
   position: fixed;
-  top: 10%;
+  top: 8%;
   left: 2vw;
-  width: 96vw;
+  width: 95vw;
   min-height: 25%;
   border-radius: 1vw;
   background: rgba(35, 38, 55, 0.932);
@@ -88,6 +88,7 @@ export default {
   .btn {
     width: 6vw;
     z-index: 999;
+    padding: 1vw;
     cursor: pointer;
     img {
       width: 100%;
@@ -98,8 +99,9 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 96vw;
+    width: 95vw;
     min-height: 2vh;
+    padding: 1vw;
     margin: 0vw auto 0.5vh;
     .tip {
       display: flex;
@@ -107,7 +109,7 @@ export default {
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
-      width: 70%;
+      width: 65%;
       height: 100%;
       .tip-item {
         width: 2vw;
