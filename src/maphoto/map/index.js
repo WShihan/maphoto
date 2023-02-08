@@ -74,10 +74,11 @@ export function initialMap() {
         //文字样式
         font: "normal 12px 微软雅黑",
         //文本填充样式（即文字颜色）
-        fill: new Fill({ color: "black" }),
+        fill: new Fill({ color: "#fff" }),
         // stroke: new Stroke({ color: "#gray", width: 0 }),
-        backgroundFill: new Fill({ color: "#fff" }),
+        // backgroundFill: new Fill({ color: "#fff" }),
       }),
+      fill: new Fill({ color: "blue" }),
     });
   }
 

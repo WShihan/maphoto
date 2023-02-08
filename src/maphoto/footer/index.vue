@@ -14,7 +14,7 @@
 <script>
 import Navigation from "@/components/Navigation.vue";
 import { layerChange, layerAdd, layerAddPhoto } from "@/utils/layerManager";
-import { locateHere } from "@/utils/tool";
+import { locateHere, generateStyleImg } from "@/utils/tool";
 export default {
   name: "Footer",
   props: {
@@ -40,7 +40,8 @@ export default {
       layerChange(nav.name);
     },
     locate() {
-      locateHere();
+      // locateHere();
+      generateStyleImg();
     },
   },
   watch: {},

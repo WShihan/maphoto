@@ -1,5 +1,10 @@
 import axios from "axios";
 
+/**
+ * @description 获取所有照片点
+ * @export
+ * @return {Promise}
+ */
 export function getPhotos() {
   return new Promise((resolve, reject) => {
     axios
@@ -26,6 +31,11 @@ export function getPhotos() {
   });
 }
 
+/**
+ * @description 获取所有照片连接
+ * @export
+ * @param {*} params
+ */
 export function getPhotoSrc(params) {
   axios.request({
     url: "",

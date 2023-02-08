@@ -71,6 +71,7 @@ export default {
   left: 2vw;
   width: 95vw;
   min-height: 25%;
+  padding: 2vw 0vw;
   border-radius: 1vw;
   background: rgba(35, 38, 55, 0.932);
   .looker-inner {
@@ -82,7 +83,7 @@ export default {
     height: 100%;
     img {
       width: 98%;
-      margin: 1% auto;
+      margin: 0 auto;
     }
   }
   .btn {
@@ -95,6 +96,9 @@ export default {
     }
   }
   .img-handle {
+    position: relative;
+    left: 0%;
+    bottom: 0%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
