@@ -3,6 +3,7 @@
     <div class="header-out">
       <Header :changeUI="mapControl" @change="mapControl = false" />
     </div>
+
     <div class="map-out">
       <Map />
     </div>

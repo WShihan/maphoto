@@ -66,12 +66,13 @@ export default {
 
 <style scoped lang="less">
 .looker {
-  position: fixed;
-  top: 8%;
-  left: 2vw;
-  width: 95vw;
+  position: absolute;
+  width: 80vw;
+  top: 6vh;
+  left: 10vw;
   min-height: 25%;
   padding: 2vw 0vw;
+  margin: 0 auto;
   border-radius: 1vw;
   background: rgba(35, 38, 55, 0.932);
   .looker-inner {
@@ -103,10 +104,10 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 95vw;
+    width: inherit;
     min-height: 2vh;
-    padding: 1vw;
-    margin: 0vw auto 0.5vh;
+    padding: 0 1vw;
+    margin: 2vh auto 0.5vh;
     .tip {
       display: flex;
       flex-direction: row;

@@ -4,7 +4,7 @@ import { Tile, Vector as VectorLayer } from "ol/layer";
 import { XYZ, Vector as VectorSource, Cluster } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { layerAdd } from "@/utils/layerManager";
-import { getPhotos } from "@/api/index";
+import { getPhotos } from "@/apis";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
 
@@ -53,7 +53,7 @@ export function initialMap() {
         offsetOrigin: "top-right",
         // offset:[0,10],
         //图标缩放比例
-        scale: 0.2,
+        scale: 0.5,
         //透明度
         opacity: 0.75,
         //图标的url
@@ -67,7 +67,7 @@ export function initialMap() {
         textAlign: "center",
         justify: "center",
         offsetX: 15,
-        offsetY: -5,
+        offsetY: -20,
         placement: "point",
         //基准线
         textBaseline: "middle",

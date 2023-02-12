@@ -1,7 +1,7 @@
 import { Tile, Vector as VectorLayer } from "ol/layer";
 import { XYZ, Vector as VectorSource, Cluster } from "ol/source";
 import { fromLonLat } from "ol/proj";
-import { getPhotos } from "@/api/index";
+import { getPhotos } from "@/apis";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
 export class MapEnum {

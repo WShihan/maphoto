@@ -1,5 +1,7 @@
 <template>
   <div class="footer">
+    <span class="foot-btn credit">maphoto</span>
+    <span class="foot-btn create">创建</span>
     <Navigation v-show="mapControl" :navs="navs" @change="change" btnHeight="25px" />
     <div class="btns" v-if="!mapControl">
       <img src="@/assets/icon/locate.png" alt="" @click="locate" />
@@ -40,8 +42,8 @@ export default {
       layerChange(nav.name);
     },
     locate() {
-      // locateHere();
-      generateStyleImg();
+      locateHere();
+      // generateStyleImg();
     },
   },
   watch: {},
@@ -50,9 +52,11 @@ export default {
 </script>
 
 <style scoped lang="less">
+@--textColor: rgb(18, 150, 219);
 .footer {
   width: 100%;
   padding-top: 2vw;
+  position: absolute;
   .btns {
     display: flex;
     flex-direction: row;
@@ -78,6 +82,18 @@ export default {
       border-radius: 0.5vw;
       background: #fff;
     }
+  }
+  .foot-btn {
+    position: absolute;
+    top: -20px;
+    color: @--textColor;
+    font-size: 0.4rem;
+  }
+  & span.create {
+    right: 10px;
+  }
+  & span.credit {
+    left: 10px;
   }
 }
 </style>

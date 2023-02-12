@@ -1,4 +1,6 @@
 import axios from "axios";
+import nprogress from "nprogress";
+import NProgress from "nprogress";
 
 /**
  * @description 获取所有照片点
@@ -6,6 +8,7 @@ import axios from "axios";
  * @return {Promise}
  */
 export function getPhotos() {
+  NProgress.start();
   return new Promise((resolve, reject) => {
     axios
       .request({
@@ -23,6 +26,7 @@ export function getPhotos() {
         },
       })
       .then((response) => {
+        nprogress.done();
         resolve(response.data);
       })
       .catch((error) => {

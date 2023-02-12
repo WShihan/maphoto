@@ -88,6 +88,8 @@ export default {
   align-items: center;
 }
 .navs {
+  width: 95%;
+  margin: 0 auto;
   border-radius: 1.5vw;
   background: rgb(52, 67, 107);
 
