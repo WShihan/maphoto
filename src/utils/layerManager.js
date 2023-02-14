@@ -1,9 +1,9 @@
 import { Tile, Vector as VectorLayer } from "ol/layer";
-import { XYZ, Vector as VectorSource, Cluster } from "ol/source";
-import { fromLonLat } from "ol/proj";
+import { XYZ, Vector as VectorSource, Cluster, TileArcGISRest as ArcgisSource } from "ol/source";
 import { getPhotos } from "@/apis";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
+
 export class MapEnum {
   static get Street() {
     return "street";
@@ -64,10 +64,8 @@ export function layerAdd(name) {
   switch (name) {
     case "satellite":
       return new Tile({
-        name: "satellite",
-        zIndex: 0,
-        source: new XYZ({
-          url: "http://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+        source: new ArcgisSource({
+          url: "https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer",
         }),
       });
     case "street":
