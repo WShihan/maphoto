@@ -1,5 +1,11 @@
 import { Tile, Vector as VectorLayer } from "ol/layer";
-import { XYZ, Vector as VectorSource, Cluster, TileArcGISRest as ArcgisSource } from "ol/source";
+import {
+  XYZ,
+  Vector as VectorSource,
+  Stamen,
+  Cluster,
+  TileArcGISRest as ArcgisSource,
+} from "ol/source";
 import { getPhotos } from "@/apis";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
@@ -8,15 +14,26 @@ export class MapEnum {
   static get Street() {
     return "street";
   }
-  static get Mix() {
-    return "mix";
+  static get WaterColor() {
+    return "waterColor";
   }
   static get Satellite() {
     return "satellite";
   }
+  static get Maphoto() {
+    return "maphoto";
+  }
+  static get Label() {
+    return "label";
+  }
 }
 
-//   创建样式
+/**
+ * @description 生成样式
+ * @param {string} [text=""]
+ * @param {string} [iconPath="https://md-1301600412.cos.ap-nanjing.myqcloud.com/temp/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20230131221642.jpg"]
+ * @return {*}
+ */
 function genStyle(
   text = "",
   iconPath = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/temp/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20230131221642.jpg"
@@ -60,27 +77,43 @@ function genStyle(
 const photoBaseUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/";
 
 const tk = "bdbf8bbd2d00a2731397dca87a489db0";
+
+/**
+ * @description 添加图层
+ * @export
+ * @param {String} name 图层名称（类型）
+ * @return {Promise}
+ */
 export function layerAdd(name) {
   switch (name) {
-    case "satellite":
+    case MapEnum.Satellite:
       return new Tile({
+        name: name,
+        zIndex: 0,
         source: new ArcgisSource({
           url: "https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer",
         }),
       });
-    case "street":
+    case MapEnum.Street:
       return new Tile({
-        name: "street",
+        name: name,
         zIndex: 0,
         source: new XYZ({
           url: "https://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
         }),
       });
-      break;
-    case "label":
+    case MapEnum.WaterColor:
+      return new Tile({
+        name: name,
+        zIndex: 0,
+        source: new Stamen({
+          layer: "watercolor",
+        }),
+      });
+    case MapEnum.Label:
       return new Tile({
         zIndex: 98,
-        name: "label",
+        name: name,
         source: new XYZ({
           url: "http://t0.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=" + tk,
         }),
@@ -89,6 +122,12 @@ export function layerAdd(name) {
       break;
   }
 }
+
+/**
+ * @description 添加maphoto地点
+ * @export
+ * @return {Promise}
+ */
 export function layerAddPhoto() {
   return new Promise((resolve, reject) => {
     getPhotos().then((data) => {
@@ -124,8 +163,8 @@ export function layerAddPhoto() {
 /**
  * @description
  * @export
- * @param {Array} names
- * @param {boolean} [reverse=false]
+ * @param {Array<String>} names 操作的图层名称
+ * @param {boolean} [reverse=false] 是否反转
  */
 export function layerRemove(names, reverse = false) {
   let map = window.map;
@@ -139,21 +178,26 @@ export function layerRemove(names, reverse = false) {
   });
 }
 
+/**
+ * @description 切换地图
+ * @export
+ * @param {String} type 图层类型（名称）
+ */
 export function layerChange(type) {
   let map = window.map;
   switch (type) {
     case MapEnum.Street:
-      layerRemove(["maphoto"], true);
+      layerRemove([MapEnum.Maphoto], true);
       map.addLayer(layerAdd(type));
       break;
-    case MapEnum.Mix:
-      layerRemove(["street", "satellite"]);
-      map.addLayer(layerAdd("label"));
-      map.addLayer(layerAdd("satellite"));
+    case MapEnum.WaterColor:
+      layerRemove([MapEnum.Maphoto], true);
+      map.addLayer(layerAdd(type));
       break;
 
     case MapEnum.Satellite:
-      layerRemove(["maphoto"], true);
+      layerRemove([MapEnum.Maphoto], true);
+      map.addLayer(layerAdd(MapEnum.Label));
       map.addLayer(layerAdd(type));
       break;
   }

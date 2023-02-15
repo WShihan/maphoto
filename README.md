@@ -1,24 +1,32 @@
 # vue-maphoto
 
-## Project setup
+一个仿iOS相册的地图应用，将照片导进地图展示。
+
+设计需求，详见：[maphoto (notion.site)](https://stormy-partner-d42.notion.site/maphoto-2780b42013b346c4a1c187e5026994fd)
+
+## 1.使用
+
+### 1.1 安装
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 1.2 运行
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 1.3 编译
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### 1.4格式
 ```
 npm run lint
 ```
 
-### Customize configuration
+### 自定义配置
 See [Configuration Reference](https://cli.vuejs.org/config/).

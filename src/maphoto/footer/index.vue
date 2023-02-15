@@ -30,7 +30,7 @@ export default {
     return {
       navs: [
         { name: "street", title: "街区" },
-        { name: "mix", title: "混合" },
+        { name: "waterColor", title: "水彩" },
         { name: "satellite", title: "卫星" },
       ],
     };
