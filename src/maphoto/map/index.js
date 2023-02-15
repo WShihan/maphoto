@@ -1,7 +1,7 @@
 import { reactive, toRefs } from "vue";
 import { Map, View } from "ol";
 import { Tile, Vector as VectorLayer } from "ol/layer";
-import { ScaleLine, ZoomSlider } from "ol/control";
+import { ScaleLine, ZoomSlider, Zoom } from "ol/control";
 import { XYZ, Vector as VectorSource, Cluster, TileArcGISRest as ArcgisTile } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { layerAdd } from "@/utils/layerManager";
@@ -34,7 +34,7 @@ export function initialMap() {
         center: fromLonLat([118, 39]),
         zoom: 6,
       }),
-      controls: [new ZoomSlider()],
+      controls: [new ZoomSlider(), new Zoom()],
     });
     window.map = map;
     bindClickEvt();
