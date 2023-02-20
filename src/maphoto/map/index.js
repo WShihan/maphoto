@@ -1,4 +1,4 @@
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, onBeforeMount, onMounted, $router } from "vue";
 import { Map, View } from "ol";
 import { Tile, Vector as VectorLayer } from "ol/layer";
 import { ScaleLine, ZoomSlider, Zoom } from "ol/control";
@@ -16,8 +16,8 @@ export function initialMap() {
       open: false,
       srcs: [],
     },
+    mapConfig: undefined,
   });
-  const tk = "bdbf8bbd2d00a2731397dca87a489db0";
   let map;
 
   /** @type {VectorLayer} */
@@ -31,8 +31,8 @@ export function initialMap() {
       target: "map-container",
       layers: [layerAdd("street")],
       view: new View({
-        center: fromLonLat([118, 39]),
-        zoom: 6,
+        center: state.mapConfig.center ? fromLonLat(state.mapConfig.center) : fromLonLat([118, 39]),
+        zoom: state.mapConfig.zoom ? state.mapConfig.zoom : 6,
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
@@ -82,10 +82,11 @@ export function initialMap() {
       fill: new Fill({ color: "blue" }),
     });
   }
+  onMounted(() => {});
 
   //   加载点资源
   function loadPhoto() {
-    getPhotos().then((data) => {
+    getPhotos({ uid: state.mapConfig.uid }).then((data) => {
       // 创建矢量数据源
       let vecSource = new VectorSource({
         title: "poi",
@@ -111,13 +112,8 @@ export function initialMap() {
       //   添加图层
       map.addLayer(clusterLyr);
       //   定位图层
-      map.getView().fit(vecSource.getExtent(), map.getSize());
+      if (state.mapConfig.autoCenter) map.getView().fit(vecSource.getExtent(), map.getSize());
     });
-  }
-
-  function genSelectedStyle(feature) {
-    const color = "#fff";
-    return genStyle().getText().getFill().setColor(color);
   }
 
   //   绑定点击事件
@@ -157,75 +153,4 @@ export function initialMap() {
   };
 }
 
-/*
-export function initialMap() {
-  // 初始化参数
-  let state = reactive({
-    popup: {
-      open: false,
-      srcs: [],
-    },
-  });
-  let map;
-  let clusterLyr;
-  const photoBaseUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/";
-  //   创建地图及图层
-  function createMap() {
-    map = new Map({
-      target: "map-container",
-      layers: [layerAdd("street")],
-      view: new View({
-        center: fromLonLat([118, 39]),
-        zoom: 6,
-      }),
-      controls: [],
-    });
-    window.map = map;
-    bindClickEvt();
-  }
-
-  //   加载点资源
-  function loadPhoto() {
-    layerAddPhoto().then((res) => {
-      clusterLyr = res.layer;
-      //   添加图层
-      map.addLayer(clusterLyr);
-      //   定位图层
-      map.getView().fit(res.extent, map.getSize());
-    });
-  }
-
-  //   绑定点击事件
-  function bindClickEvt() {
-    map.on("click", (event) => {
-      state.popup.srcs.length = 0;
-      clusterLyr.getFeatures(event.pixel).then((clusterFeat) => {
-        if (clusterFeat.length > 0) {
-          state.popup.open = true;
-          const features = clusterFeat[0].get("features");
-          if (features.length > 0) {
-            features.forEach((feat) => {
-              state.popup.srcs.push(photoBaseUrl + feat.get("icon"));
-              const srcs = feat.get("srcs");
-              if (srcs) {
-                srcs.split("/").forEach((src) => {
-                  state.popup.srcs.push(photoBaseUrl + src);
-                });
-              }
-            });
-          }
-        } else {
-          state.popup.open = false;
-        }
-      });
-    });
-  }
-
-  return {
-    createMap,
-    loadPhoto,
-    ...toRefs(state),
-  };
-}
-*/
 export default initialMap;

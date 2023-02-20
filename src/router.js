@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const whiteList = ["/", "/login", "about"];
 const routes = [
   {
-    path: "/",
+    path: "/:name?",
     name: "index",
     component: () => import("@/maphoto/index.vue"),
     meta: {

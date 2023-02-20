@@ -2,12 +2,14 @@ import axios from "axios";
 import nprogress from "nprogress";
 import NProgress from "nprogress";
 
+const baseUrl = "http://www.xiemolin233.cn/api";
+// const baseUrl = "http://127.0.0.1:5000/api";
 /**
  * @description 获取所有照片点
  * @export
  * @return {Promise}
  */
-export function getPhotos() {
+export function getPhotos({ uid }) {
   NProgress.start();
   return new Promise((resolve, reject) => {
     axios
@@ -22,7 +24,7 @@ export function getPhotos() {
           typeName: "Yunnan:maphoto",
           outputFormat: "JSON",
           count: 500,
-          //   cql_filter: `"中类"='地铁站'`,
+          cql_filter: `"uid"='${uid}'`,
         },
       })
       .then((response) => {
@@ -45,5 +47,13 @@ export function getPhotoSrc(params) {
     url: "",
     method: "get",
     params: params,
+  });
+}
+
+export function getMapInitialConfig({ name }) {
+  return axios.request({
+    url: baseUrl + "/maphoto/config/" + name,
+    method: "get",
+    // params: params,
   });
 }

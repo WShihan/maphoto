@@ -10,6 +10,7 @@
 <script>
 import { initialMap } from "./index.js";
 import Looker from "./components/Looker.vue";
+import { getMapInitialConfig } from "@/apis";
 
 export default {
   name: "Map",
@@ -18,12 +19,17 @@ export default {
     return {};
   },
   components: { Looker },
-  mounted() {
-    this.createMap();
-    this.loadPhoto();
-  },
   setup() {
     return initialMap();
+  },
+  mounted() {
+    const name = this.$route.params.name === "" ? "wsh" : this.$route.params.name;
+    getMapInitialConfig({ name: name }).then((response) => {
+      this.mapConfig = response.data;
+      document.title = this.mapConfig.title;
+      this.createMap();
+      this.loadPhoto();
+    });
   },
 };
 </script>
