@@ -23,8 +23,9 @@ export function getPhotos({ uid }) {
           request: "GetFeature",
           typeName: "Yunnan:maphoto",
           outputFormat: "JSON",
+          propertyName: "(geom,date,desc,srcs,icon)",
           count: 500,
-          cql_filter: `"uid"='${uid}'`,
+          cql_filter: `"uid"='${uid}' AND "public"='true'`,
         },
       })
       .then((response) => {
