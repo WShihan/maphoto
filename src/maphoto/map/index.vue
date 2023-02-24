@@ -25,10 +25,10 @@ export default {
   mounted() {
     const name = this.$route.params.name === "" ? "wsh" : this.$route.params.name;
     getMapInitialConfig({ name: name }).then((response) => {
-      this.mapConfig = response.data;
+      this.mapConfig = response.data.config;
       document.title = this.mapConfig.title;
       this.createMap();
-      this.loadPhoto();
+      this.loadPhoto(response.data.features);
     });
   },
 };

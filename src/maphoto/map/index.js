@@ -5,7 +5,6 @@ import { ScaleLine, ZoomSlider, Zoom } from "ol/control";
 import { XYZ, Vector as VectorSource, Cluster, TileArcGISRest as ArcgisTile } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { layerAdd } from "@/utils/layerManager";
-import { getPhotos } from "@/apis";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
 
@@ -85,35 +84,33 @@ export function initialMap() {
   onMounted(() => {});
 
   //   加载点资源
-  function loadPhoto() {
-    getPhotos({ uid: state.mapConfig.uid }).then((data) => {
-      // 创建矢量数据源
-      let vecSource = new VectorSource({
-        title: "poi",
-        features: new GeoJSON().readFeatures(data),
-        wrapX: false,
-      });
-      //   创建聚合数据源
-      let clusterSource = new Cluster({
-        distance: state.mapConfig.clusterTolerance | 6,
-        source: vecSource,
-      });
-      //   创建图层
-      clusterLyr = new VectorLayer({
-        name: "maphoto",
-        zIndex: 99,
-        source: clusterSource,
-        style: (feature, resolution) => {
-          var clusterFeats = feature.get("features");
-          const size = clusterFeats.length;
-          return genStyle(size, thumbUrl + clusterFeats[0].get("icon"));
-        },
-      });
-      //   添加图层
-      map.addLayer(clusterLyr);
-      //   定位图层
-      if (state.mapConfig.autoCenter) map.getView().fit(vecSource.getExtent(), map.getSize());
+  function loadPhoto(data) {
+    // 创建矢量数据源
+    let vecSource = new VectorSource({
+      title: "poi",
+      features: new GeoJSON().readFeatures(data),
+      wrapX: false,
     });
+    //   创建聚合数据源
+    let clusterSource = new Cluster({
+      distance: state.mapConfig.clusterTolerance | 6,
+      source: vecSource,
+    });
+    //   创建图层
+    clusterLyr = new VectorLayer({
+      name: "maphoto",
+      zIndex: 99,
+      source: clusterSource,
+      style: (feature, resolution) => {
+        var clusterFeats = feature.get("features");
+        const size = clusterFeats.length;
+        return genStyle(size, thumbUrl + clusterFeats[0].get("icon"));
+      },
+    });
+    //   添加图层
+    map.addLayer(clusterLyr);
+    //   定位图层
+    if (state.mapConfig.autoCenter) map.getView().fit(vecSource.getExtent(), map.getSize());
   }
 
   //   绑定点击事件
