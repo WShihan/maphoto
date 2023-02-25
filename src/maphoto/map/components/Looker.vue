@@ -4,11 +4,11 @@
       <img v-for="(src, k) in srcs" :key="k" :src="src" v-show="currentSrcIndex === k" />
     </div>
     <div class="btn close" @click="this.$emit('close')">
-      <img src="@/assets/icon/close.svg" alt="" />
+      <i class="icon iconfont icon-close"></i>
     </div>
     <div class="img-handle">
       <div class="btn left" @click="backwardLook">
-        <img src="@/assets/icon/left.svg" alt="" />
+        <i class="icon iconfont icon-left"></i>
       </div>
       <div class="tip">
         <div
@@ -19,7 +19,7 @@
         ></div>
       </div>
       <div class="btn right" @click="towardLook">
-        <img src="@/assets/icon/right.svg" alt="" />
+        <i class="icon iconfont icon-right"></i>
       </div>
     </div>
   </div>
@@ -65,13 +65,15 @@ export default {
 </script>
 
 <style scoped lang="less">
+@--btn-size: 0.8rem;
+@--btn-color: rgb(18, 150, 219);
 .looker {
+  z-index: 1000;
   position: absolute;
-  width: 80vw;
+  width: 100vw;
   top: 6vh;
-  left: 10vw;
   min-height: 25%;
-  padding: 2vw 0vw;
+  padding: 0.5vw 0vw;
   margin: 0 auto;
   border-radius: 1vw;
   background: rgba(35, 38, 55, 0.932);
@@ -83,7 +85,7 @@ export default {
     width: 100%;
     height: 100%;
     img {
-      width: 98%;
+      width: 99%;
       margin: 0 auto;
     }
   }
@@ -92,12 +94,17 @@ export default {
     z-index: 999;
     padding: 1vw;
     cursor: pointer;
-    img {
-      width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    i {
+      color: @--btn-color;
+      font-size: @--btn-size;
     }
   }
   .img-handle {
-    position: relative;
+    position: absolute;
     left: 0%;
     bottom: 0%;
     display: flex;
@@ -105,8 +112,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: inherit;
-    min-height: 2vh;
-    padding: 0 1vw;
+    padding: 1vw;
     margin: 2vh auto 0.5vh;
     .tip {
       display: flex;
@@ -114,16 +120,16 @@ export default {
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
-      width: 65%;
+      width: 60%;
       height: 100%;
       .tip-item {
         width: 2vw;
         height: 2vw;
         margin: 0vw 0.5vw;
         border-radius: 1vw;
-        background: rgb(77, 93, 153);
+        background: rgb(160, 161, 168);
         &.active {
-          background: rgb(6, 126, 247);
+          background: @--btn-color;
         }
       }
     }
@@ -135,8 +141,9 @@ export default {
     right: 2vw;
     width: 6vw;
     cursor: pointer;
-    img {
-      width: 100%;
+    i {
+      color: @--btn-color;
+      font-size: @--btn-size;
     }
   }
 }

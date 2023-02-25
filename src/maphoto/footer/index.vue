@@ -4,8 +4,8 @@
     <span class="foot-btn create">创建</span>
     <Navigation v-show="mapControl" :navs="navs" @change="change" btnHeight="25px" />
     <div class="btns" v-if="!mapControl">
-      <img src="@/assets/icon/locate.png" alt="" @click="locate" />
-      <img src="@/assets/icon/layer.png" alt="" @click="this.$emit('rightClick')" />
+      <i class="icon iconfont icon-location" @click="locate"></i>
+      <i class="icon iconfont icon-layer" @click="this.$emit('rightClick')"></i>
     </div>
     <div class="home-btn">
       <div class="inner"></div>
@@ -63,8 +63,9 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 3vw 5vw;
-    img {
-      width: 7vw;
+    i {
+      color: @--textColor;
+      font-size: 0.8rem;
     }
   }
   .home-btn {
