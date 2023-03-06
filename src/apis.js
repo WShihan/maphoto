@@ -22,7 +22,7 @@ export function getMapInitialConfig({ name }) {
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: baseUrl + "/maphoto/config/" + name,
+        url: baseUrl + "/maphoto/" + name,
         method: "get",
         // params: params,
       })

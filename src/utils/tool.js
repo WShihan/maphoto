@@ -1,7 +1,7 @@
 import { View } from "ol";
 import { fromLonLat } from "ol/proj";
 import html2canvas from "html2canvas";
-
+import { Notify } from "./notify";
 /**
  * @description 定位到当前位置
  * @export
@@ -17,9 +17,10 @@ export function locateHere() {
           zoom: 10,
         })
       );
+      Notify.success("定位成功！");
     },
     (error) => {
-      console.error(error);
+      Notify.warning("定位失败，无法获取地理位置，请授权！");
     }
   );
 }
