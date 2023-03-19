@@ -31,7 +31,9 @@ export function initialMap() {
       layers: [layerAdd("street")],
       view: new View({
         center: state.mapConfig.center ? fromLonLat(state.mapConfig.center) : fromLonLat([118, 39]),
-        zoom: state.mapConfig.zoom | 6,
+        zoom: 6,
+        maxZoom: state.mapConfig.maxZoom,
+        minZoom: state.mapConfig.minZoom,
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
@@ -93,7 +95,7 @@ export function initialMap() {
     });
     //   创建聚合数据源
     let clusterSource = new Cluster({
-      distance: state.mapConfig.clusterTolerance | 6,
+      distance: state.mapConfig.tolerance | 6,
       source: vecSource,
     });
     //   创建图层

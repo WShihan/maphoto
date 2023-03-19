@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
-    <span class="foot-btn credit">maphoto</span>
-    <span class="foot-btn create">创建</span>
+    <!-- <span class="foot-btn credit">maphoto</span>
+    <span class="foot-btn create">创建</span> -->
     <Navigation v-show="mapControl" :navs="navs" @change="change" btnHeight="25px" />
     <div class="btns" v-if="!mapControl">
       <i class="icon iconfont icon-location" @click="locate"></i>
