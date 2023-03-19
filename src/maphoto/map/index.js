@@ -32,8 +32,8 @@ export function initialMap() {
       view: new View({
         center: state.mapConfig.center ? fromLonLat(state.mapConfig.center) : fromLonLat([118, 39]),
         zoom: 6,
-        maxZoom: state.mapConfig.maxZoom,
-        minZoom: state.mapConfig.minZoom,
+        maxZoom: state.mapConfig.maxZoom | 14,
+        minZoom: state.mapConfig.minZoom | 3,
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
@@ -112,7 +112,7 @@ export function initialMap() {
     //   添加图层
     map.addLayer(clusterLyr);
     //   定位图层
-    if (state.mapConfig.autoCenter) map.getView().fit(vecSource.getExtent(), map.getSize());
+    map.getView().fit(vecSource.getExtent(), map.getSize());
   }
 
   //   绑定点击事件
