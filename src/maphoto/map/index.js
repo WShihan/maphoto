@@ -21,8 +21,8 @@ export function initialMap() {
 
   /** @type {VectorLayer} */
   let clusterLyr;
-  const thumbUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/";
-  const photoUrl = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/photos/";
+  const thumbUrl = process.env.VUE_APP_THUMB_URL;
+  const photoUrl = process.env.VUE_APP_MAPHOTO_URL;
 
   //   创建地图及图层
   function createMap() {
@@ -42,10 +42,7 @@ export function initialMap() {
   }
 
   //   创建样式
-  function genStyle(
-    text = "",
-    iconPath = "https://md-1301600412.cos.ap-nanjing.myqcloud.com/maphoto/thumb/3c42f1c8befeeb7b.png"
-  ) {
+  function genStyle(text = "", iconPath = thumbUrl + "3c42f1c8befeeb7b.png") {
     return new Style({
       image: new Icon({
         anchor: [0.5, 60],
