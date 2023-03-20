@@ -32,8 +32,8 @@ export function initialMap() {
       view: new View({
         center: state.mapConfig.center ? fromLonLat(state.mapConfig.center) : fromLonLat([118, 39]),
         zoom: 6,
-        maxZoom: state.mapConfig.maxZoom | 14,
-        minZoom: state.mapConfig.minZoom | 3,
+        maxZoom: state.mapConfig.maxZoom ? state.mapConfig.maxZoom : 14,
+        minZoom: state.mapConfig.minZoom ? state.mapConfig.minZoom : 3,
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
@@ -95,7 +95,7 @@ export function initialMap() {
     });
     //   创建聚合数据源
     let clusterSource = new Cluster({
-      distance: state.mapConfig.tolerance | 6,
+      distance: state.mapConfig.tolerance ? state.mapConfig.tolerance : 6,
       source: vecSource,
     });
     //   创建图层
