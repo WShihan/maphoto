@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3871343 */
-  src: url("//at.alicdn.com/t/c/font_3871343_nuqkurk5w9.woff2?t=1677321884429") format("woff2"),
-    url("//at.alicdn.com/t/c/font_3871343_nuqkurk5w9.woff?t=1677321884429") format("woff"),
-    url("//at.alicdn.com/t/c/font_3871343_nuqkurk5w9.ttf?t=1677321884429") format("truetype");
+  src: url("//at.alicdn.com/t/c/font_3871343_cx41baaujbc.woff2?t=1679314107840") format("woff2"),
+    url("//at.alicdn.com/t/c/font_3871343_cx41baaujbc.woff?t=1679314107840") format("woff"),
+    url("//at.alicdn.com/t/c/font_3871343_cx41baaujbc.ttf?t=1679314107840") format("truetype");
 }
 
 .iconfont {
@@ -11,6 +11,38 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-github:before {
+  content: "\e677";
+}
+
+.icon-photo:before {
+  content: "\e618";
+}
+
+.icon-delete:before {
+  content: "\e65b";
+}
+
+.icon-back2:before {
+  content: "\e60f";
+}
+
+.icon-back:before {
+  content: "\e608";
+}
+
+.icon-share:before {
+  content: "\e660";
+}
+
+.icon-wenhao:before {
+  content: "\e610";
+}
+
+.icon-confuse:before {
+  content: "\e614";
 }
 
 .icon-point2:before {
@@ -25,24 +57,12 @@
   content: "\ea66";
 }
 
-.icon-share:before {
-  content: "\e626";
-}
-
 .icon-edit:before {
   content: "\e600";
 }
 
-.icon-delete:before {
-  content: "\e68e";
-}
-
 .icon-locate:before {
   content: "\e8ff";
-}
-
-.icon-photo:before {
-  content: "\e64f";
 }
 
 .icon-pan:before {
