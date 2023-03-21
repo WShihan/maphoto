@@ -1,12 +1,13 @@
-import { reactive, toRefs, onBeforeMount, onMounted, $router } from "vue";
+import { reactive, toRefs, onMounted, onBeforeUnmount } from "vue";
 import { Map, View } from "ol";
-import { Tile, Vector as VectorLayer } from "ol/layer";
-import { ScaleLine, ZoomSlider, Zoom } from "ol/control";
-import { XYZ, Vector as VectorSource, Cluster, TileArcGISRest as ArcgisTile } from "ol/source";
+import { Vector as VectorLayer } from "ol/layer";
+import { ZoomSlider, Zoom } from "ol/control";
+import { Vector as VectorSource, Cluster, TileArcGISRest as ArcgisTile } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { layerAdd } from "@/utils/layerManager";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
+import nprogress from "nprogress";
 
 export function initialMap() {
   // 初始化参数
@@ -17,6 +18,8 @@ export function initialMap() {
     },
     mapConfig: undefined,
   });
+
+  /** @type {Map} */
   let map;
 
   /** @type {VectorLayer} */
@@ -36,6 +39,14 @@ export function initialMap() {
         minZoom: state.mapConfig.minZoom ? state.mapConfig.minZoom : 3,
       }),
       controls: [new ZoomSlider(), new Zoom()],
+    });
+    map.on("loadstart", () => {
+      nprogress.start();
+      console.log("start render");
+    });
+    map.on("rendercomplete", () => {
+      nprogress.done();
+      console.log("all layers are loaded");
     });
     window.map = map;
     bindClickEvt();
@@ -81,6 +92,12 @@ export function initialMap() {
     });
   }
   onMounted(() => {});
+  onBeforeUnmount(() => {
+    // 解除监听
+    map.un("rendercomplete");
+    map.un("loadstart");
+    map.un("click");
+  });
 
   //   加载点资源
   function loadPhoto(data) {
