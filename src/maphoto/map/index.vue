@@ -1,5 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%">
+    <Loading v-show="loading" top="1.5vw" right="2vw" />
     <div id="map-container"></div>
     <Transition>
       <Looker v-if="popup.open" :srcs="popup.srcs" @close="popup.open = false" />
@@ -11,6 +12,7 @@
 import { initialMap } from "./index.js";
 import Looker from "./components/Looker.vue";
 import { getMapInitialConfig } from "@/apis";
+import Loading from "@/components/Loading.vue";
 
 export default {
   name: "Map",
@@ -18,7 +20,7 @@ export default {
   data() {
     return {};
   },
-  components: { Looker },
+  components: { Looker, Loading },
   setup() {
     return initialMap();
   },

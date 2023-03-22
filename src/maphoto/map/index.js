@@ -7,7 +7,6 @@ import { fromLonLat } from "ol/proj";
 import { layerAdd } from "@/utils/layerManager";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
-import nprogress from "nprogress";
 
 export function initialMap() {
   // 初始化参数
@@ -17,6 +16,7 @@ export function initialMap() {
       srcs: [],
     },
     mapConfig: undefined,
+    loading: false,
   });
 
   /** @type {Map} */
@@ -40,14 +40,8 @@ export function initialMap() {
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
-    map.on("loadstart", () => {
-      nprogress.start();
-      console.log("start render");
-    });
-    map.on("rendercomplete", () => {
-      nprogress.done();
-      console.log("all layers are loaded");
-    });
+    map.on("loadstart", loadingChange);
+    map.on("rendercomplete", loadingChange);
     window.map = map;
     bindClickEvt();
   }
@@ -91,11 +85,14 @@ export function initialMap() {
       fill: new Fill({ color: "blue" }),
     });
   }
+  function loadingChange() {
+    state.loading = state.loading ? false : true;
+  }
   onMounted(() => {});
   onBeforeUnmount(() => {
     // 解除监听
-    map.un("rendercomplete");
-    map.un("loadstart");
+    map.un("rendercomplete", loadingChange);
+    map.un("loadstart", loadingChange);
     map.un("click");
   });
 
