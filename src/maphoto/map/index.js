@@ -40,8 +40,8 @@ export function initialMap() {
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
-    map.on("loadstart", loadingChange);
-    map.on("rendercomplete", loadingChange);
+    map.on("loadstart", loadStartEvtHandler);
+    map.on("rendercomplete", loadCompleteEvtHandler);
     window.map = map;
     bindClickEvt();
   }
@@ -85,14 +85,16 @@ export function initialMap() {
       fill: new Fill({ color: "blue" }),
     });
   }
-  function loadingChange() {
-    state.loading = state.loading ? false : true;
+  function loadCompleteEvtHandler(evt) {
+    state.loading = false;
   }
-  onMounted(() => {});
+  function loadStartEvtHandler(evt) {
+    state.loading = true;
+  }
   onBeforeUnmount(() => {
     // 解除监听
-    map.un("rendercomplete", loadingChange);
-    map.un("loadstart", loadingChange);
+    map.un("rendercomplete", loadCompleteEvtHandler);
+    map.un("loadstart", loadCompleteEvtHandler);
     map.un("click");
   });
 
@@ -106,7 +108,7 @@ export function initialMap() {
     });
     //   创建聚合数据源
     let clusterSource = new Cluster({
-      distance: state.mapConfig.tolerance ? state.mapConfig.tolerance : 6,
+      distance: state.mapConfig.tolerance ? state.mapConfig.tolerance : 20,
       source: vecSource,
     });
     //   创建图层
