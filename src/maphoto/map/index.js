@@ -1,8 +1,8 @@
-import { reactive, toRefs, onBeforeMount, onMounted, $router } from "vue";
+import { reactive, toRefs, onMounted, onBeforeUnmount } from "vue";
 import { Map, View } from "ol";
-import { Tile, Vector as VectorLayer } from "ol/layer";
-import { ScaleLine, ZoomSlider, Zoom } from "ol/control";
-import { XYZ, Vector as VectorSource, Cluster, TileArcGISRest as ArcgisTile } from "ol/source";
+import { Vector as VectorLayer } from "ol/layer";
+import { ZoomSlider, Zoom } from "ol/control";
+import { Vector as VectorSource, Cluster, TileArcGISRest as ArcgisTile } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { layerAdd } from "@/utils/layerManager";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
@@ -16,7 +16,10 @@ export function initialMap() {
       srcs: [],
     },
     mapConfig: undefined,
+    loading: false,
   });
+
+  /** @type {Map} */
   let map;
 
   /** @type {VectorLayer} */
@@ -31,10 +34,14 @@ export function initialMap() {
       layers: [layerAdd("street")],
       view: new View({
         center: state.mapConfig.center ? fromLonLat(state.mapConfig.center) : fromLonLat([118, 39]),
-        zoom: state.mapConfig.zoom | 6,
+        zoom: 6,
+        maxZoom: state.mapConfig.maxZoom ? state.mapConfig.maxZoom : 14,
+        minZoom: state.mapConfig.minZoom ? state.mapConfig.minZoom : 3,
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
+    map.on("loadstart", loadStartEvtHandler);
+    map.on("rendercomplete", loadCompleteEvtHandler);
     window.map = map;
     bindClickEvt();
   }
@@ -78,7 +85,18 @@ export function initialMap() {
       fill: new Fill({ color: "blue" }),
     });
   }
-  onMounted(() => {});
+  function loadCompleteEvtHandler(evt) {
+    state.loading = false;
+  }
+  function loadStartEvtHandler(evt) {
+    state.loading = true;
+  }
+  onBeforeUnmount(() => {
+    // 解除监听
+    map.un("rendercomplete", loadCompleteEvtHandler);
+    map.un("loadstart", loadCompleteEvtHandler);
+    map.un("click");
+  });
 
   //   加载点资源
   function loadPhoto(data) {
@@ -90,7 +108,7 @@ export function initialMap() {
     });
     //   创建聚合数据源
     let clusterSource = new Cluster({
-      distance: state.mapConfig.clusterTolerance | 6,
+      distance: state.mapConfig.tolerance ? state.mapConfig.tolerance : 20,
       source: vecSource,
     });
     //   创建图层
@@ -107,7 +125,7 @@ export function initialMap() {
     //   添加图层
     map.addLayer(clusterLyr);
     //   定位图层
-    if (state.mapConfig.autoCenter) map.getView().fit(vecSource.getExtent(), map.getSize());
+    map.getView().fit(vecSource.getExtent(), map.getSize());
   }
 
   //   绑定点击事件

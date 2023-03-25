@@ -1,6 +1,6 @@
 # maphoto
 
-![GitHub Repo stars](https://img.shields.io/github/stars/WShihan/maphoto?style=social)![GitHub repo size](https://img.shields.io/github/repo-size/WShihan/maphoto?style=plastic)![GitHub](https://img.shields.io/github/license/WShihan/maphoto)![GitHub last commit](https://img.shields.io/github/last-commit/WShihan/maphoto?style=plastic)![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/WShihan/maphoto)
+![GitHub Repo stars](https://img.shields.io/github/stars/WShihan/maphoto?style=plastic)![GitHub repo size](https://img.shields.io/github/repo-size/WShihan/maphoto?style=plastic)![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/WShihan/maphoto?style=plastic)![GitHub](https://img.shields.io/github/license/WShihan/maphoto?style=plastic)![GitHub last commit](https://img.shields.io/github/last-commit/WShihan/maphoto?style=plastic)
 
 一个练手小WebGIS项目，基于Vue3编写的仿iOS相册的地图应用，将照片导进地图展示，特点如下：
 
@@ -46,7 +46,7 @@ npm run build
 
 
 
-## 自定义配置
+## Vue自定义配置
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 

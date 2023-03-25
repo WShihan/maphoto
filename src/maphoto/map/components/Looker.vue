@@ -112,7 +112,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: inherit;
-    padding: 1vw;
     margin: 2vh auto 0.5vh;
     .tip {
       display: flex;
@@ -127,7 +126,7 @@ export default {
         height: 2vw;
         margin: 0vw 0.5vw;
         border-radius: 1vw;
-        background: rgb(160, 161, 168);
+        background: rgb(238, 238, 239);
         &.active {
           background: @--btn-color;
         }

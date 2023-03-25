@@ -11,12 +11,8 @@ export function locateHere() {
     (post) => {
       const lat = post.coords.latitude;
       const lon = post.coords.longitude;
-      window.map.setView(
-        new View({
-          center: fromLonLat([lon, lat]),
-          zoom: 10,
-        })
-      );
+      window.map.getView().setCenter(fromLonLat([lon, lat]));
+      window.map.getView().setZoom(14);
       Notify.success("定位成功！");
     },
     (error) => {
