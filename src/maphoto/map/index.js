@@ -1,4 +1,4 @@
-import { reactive, toRefs, onMounted, onBeforeUnmount } from "vue";
+import { reactive, toRefs, watch, onBeforeUnmount } from "vue";
 import { Map, View } from "ol";
 import { Vector as VectorLayer } from "ol/layer";
 import { ZoomSlider, Zoom } from "ol/control";
@@ -7,6 +7,7 @@ import { fromLonLat } from "ol/proj";
 import { layerAdd } from "@/utils/layerManager";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
+import { Notify } from "@/utils/notify";
 
 export function initialMap() {
   // 初始化参数
@@ -15,7 +16,18 @@ export function initialMap() {
       open: false,
       srcs: [],
     },
-    mapConfig: undefined,
+    mapConfig: {
+      autoCenter: true,
+      iconSize: null,
+      lat: null,
+      link: null,
+      lon: null,
+      maxZoom: 16,
+      minZoom: 3,
+      note: null,
+      title: "maphoto",
+      tolerance: 40.0,
+    },
     loading: false,
   });
 
@@ -33,10 +45,10 @@ export function initialMap() {
       target: "map-container",
       layers: [layerAdd("street")],
       view: new View({
-        center: state.mapConfig.center ? fromLonLat(state.mapConfig.center) : fromLonLat([118, 39]),
-        zoom: 6,
-        maxZoom: state.mapConfig.maxZoom ? state.mapConfig.maxZoom : 14,
-        minZoom: state.mapConfig.minZoom ? state.mapConfig.minZoom : 3,
+        center: fromLonLat([110, 39]),
+        zoom: 12,
+        maxZoom: state.mapConfig.maxZoom,
+        minZoom: state.mapConfig.minZoom,
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
@@ -100,32 +112,36 @@ export function initialMap() {
 
   //   加载点资源
   function loadPhoto(data) {
-    // 创建矢量数据源
-    let vecSource = new VectorSource({
-      title: "poi",
-      features: new GeoJSON().readFeatures(data),
-      wrapX: false,
-    });
-    //   创建聚合数据源
-    let clusterSource = new Cluster({
-      distance: state.mapConfig.tolerance ? state.mapConfig.tolerance : 20,
-      source: vecSource,
-    });
-    //   创建图层
-    clusterLyr = new VectorLayer({
-      name: "maphoto",
-      zIndex: 99,
-      source: clusterSource,
-      style: (feature, resolution) => {
-        var clusterFeats = feature.get("features");
-        const size = clusterFeats.length;
-        return genStyle(size, thumbUrl + clusterFeats[0].get("icon"));
-      },
-    });
-    //   添加图层
-    map.addLayer(clusterLyr);
-    //   定位图层
-    map.getView().fit(vecSource.getExtent(), map.getSize());
+    try {
+      // 创建矢量数据源
+      let vecSource = new VectorSource({
+        title: "poi",
+        features: new GeoJSON().readFeatures(data),
+        wrapX: false,
+      });
+      //   创建聚合数据源
+      let clusterSource = new Cluster({
+        distance: state.mapConfig.tolerance,
+        source: vecSource,
+      });
+      //   创建图层
+      clusterLyr = new VectorLayer({
+        name: "maphoto",
+        zIndex: 99,
+        source: clusterSource,
+        style: (feature, resolution) => {
+          var clusterFeats = feature.get("features");
+          const size = clusterFeats.length;
+          return genStyle(size, thumbUrl + clusterFeats[0].get("icon"));
+        },
+      });
+      //   添加图层
+      map.addLayer(clusterLyr);
+      //   定位图层
+      map.getView().fit(vecSource.getExtent(), map.getSize());
+    } catch {
+      Notify.warning("无照片");
+    }
   }
 
   //   绑定点击事件
@@ -157,6 +173,17 @@ export function initialMap() {
         });
     });
   }
+  watch(
+    () => state.mapConfig,
+    (val) => {
+      console.log(val);
+      if (!map) return;
+      let view = map.getView();
+      if (val.maxZoom) view.setMaxZoom(val.maxZoom);
+      if (val.minZoom) view.setMinZoom(val.minZoom);
+    },
+    { deep: true, immediate: true }
+  );
 
   return {
     createMap,

@@ -13,6 +13,7 @@ import { initialMap } from "./index.js";
 import Looker from "./components/Looker.vue";
 import { getMapInitialConfig } from "@/apis";
 import Loading from "@/components/Loading.vue";
+import { Notify } from "@/utils/notify";
 
 export default {
   name: "Map",
@@ -26,12 +27,17 @@ export default {
   },
   mounted() {
     const name = this.$route.params.name === "" ? "wsh" : this.$route.params.name;
-    getMapInitialConfig({ name: name }).then((response) => {
-      this.mapConfig = response.data.data.config;
-      document.title = this.mapConfig.title;
-      this.createMap();
-      this.loadPhoto(response.data.data.features);
-    });
+    this.createMap();
+    getMapInitialConfig({ name: name })
+      .then((res) => {
+        if (res.data.status) {
+          Object.assign(this.mapConfig, res.data.data.config);
+          this.loadPhoto(res.data.data.features);
+        } else throw res.data.msg;
+      })
+      .catch((err) => {
+        Notify.warning(err);
+      });
   },
 };
 </script>
