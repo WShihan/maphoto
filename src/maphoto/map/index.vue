@@ -26,7 +26,7 @@ export default {
     return initialMap();
   },
   mounted() {
-    const name = this.$route.params.name === "" ? "wsh" : this.$route.params.name;
+    const name = this.$route.params.name;
     this.createMap();
     getMapInitialConfig({ name: name })
       .then((res) => {

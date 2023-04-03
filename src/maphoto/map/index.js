@@ -112,6 +112,7 @@ export function initialMap() {
 
   //   加载点资源
   function loadPhoto(data) {
+    console.log(state.mapConfig.autoCenter)
     try {
       // 创建矢量数据源
       let vecSource = new VectorSource({
@@ -138,9 +139,16 @@ export function initialMap() {
       //   添加图层
       map.addLayer(clusterLyr);
       //   定位图层
-      map.getView().fit(vecSource.getExtent(), map.getSize());
-    } catch {
-      Notify.warning("无照片");
+      if(state.mapConfig.autoCenter) {
+        map.getView().fit(vecSource.getExtent(), map.getSize());
+      } else{
+        let vw = map.getView()
+        vw.setCenter(fromLonLat([state.mapConfig.lon, state.mapConfig.lat]));
+        vw.setZoom(state.mapConfig.maxZoom)
+        
+      }
+    } catch(err) {
+      Notify.warning("无照片:" + err);
     }
   }
 
@@ -176,7 +184,6 @@ export function initialMap() {
   watch(
     () => state.mapConfig,
     (val) => {
-      console.log(val);
       if (!map) return;
       let view = map.getView();
       if (val.maxZoom) view.setMaxZoom(val.maxZoom);

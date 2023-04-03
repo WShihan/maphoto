@@ -1,9 +1,11 @@
 <template>
   <div class="footer">
-    <a href="https://github.com/WShihan/maphoto">
-      <span class="foot-btn credit">maphoto <i class="iconfont icon-github"></i></span>
+    <a href="/docs/maphoto-doc.html">
+      <span class="foot-btn credit">maphoto </span>
     </a>
-    <!-- <span class="foot-btn create">创建</span> -->
+    <a href="https://github.com/WShihan/maphoto">
+      <span class="foot-btn create"><i class="iconfont icon-github"></i></span>
+    </a>
     <Navigation v-show="mapControl" :navs="navs" @change="change" btnHeight="25px" />
     <div class="btns" v-if="!mapControl">
       <i class="icon iconfont icon-location" @click="locate"></i>
@@ -17,8 +19,8 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
-import { layerChange, layerAdd, layerAddPhoto } from "@/utils/layerManager";
-import { locateHere, generateStyleImg } from "@/utils/tool";
+import { layerChange } from "@/utils/layerManager";
+import { locateHere } from "@/utils/tool";
 export default {
   name: "Footer",
   props: {
