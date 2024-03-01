@@ -1,14 +1,15 @@
-import { reactive, toRefs, watch, onBeforeUnmount } from "vue";
-import { Map, View } from "ol";
-import { Vector as VectorLayer } from "ol/layer";
-import { ZoomSlider, Zoom } from "ol/control";
-import { Vector as VectorSource, Cluster, TileArcGISRest as ArcgisTile } from "ol/source";
-import { fromLonLat } from "ol/proj";
-import { layerAdd } from "@/utils/layerManager";
-import { Style, Stroke, Text, Icon, Fill } from "ol/style";
-import { GeoJSON } from "ol/format";
-import { Notify } from "@/utils/notify";
-import Photo from "ol-ext/style/Photo"
+import { reactive, toRefs, watch, onBeforeUnmount } from 'vue';
+import { Map, View } from 'ol';
+import { Vector as VectorLayer } from 'ol/layer';
+import { ZoomSlider, Zoom } from 'ol/control';
+import { Vector as VectorSource, Cluster } from 'ol/source';
+import { fromLonLat } from 'ol/proj';
+import { layerAdd } from '@/utils/layerManager';
+import { Style, Stroke, Text, Icon, Fill, RegularShape } from 'ol/style';
+import { GeoJSON } from 'ol/format';
+import { Notify } from '@/utils/notify';
+import Photo from 'ol-ext/style/Photo';
+import AnimatedCluster from 'ol-ext/layer/AnimatedCluster';
 
 export function initialMap() {
   // 初始化参数
@@ -26,7 +27,7 @@ export function initialMap() {
       maxZoom: 16,
       minZoom: 3,
       note: null,
-      title: "maphoto",
+      title: 'maphoto',
       tolerance: 40.0,
     },
     loading: false,
@@ -39,12 +40,52 @@ export function initialMap() {
   let clusterLyr;
   const thumbUrl = process.env.VUE_APP_THUMB_URL;
   const photoUrl = process.env.VUE_APP_MAPHOTO_URL;
+  function genStyle(size, src) {
+    if (size <= 1) {
+      return new Style({
+        image: new Photo({
+          src: src,
+          radius: 20,
+          crop: true,
+          kind: size > 1 ? 'folio' : 'square',
+          shadow: true,
+          stroke: new Stroke({
+            width: 3,
+            color: '#fff',
+          }),
+        }),
+      });
+    } else {
+      return new Style({
+        image: new Photo({
+          src: src,
+          radius: 20,
+          crop: true,
+          kind: size > 1 ? 'folio' : 'square',
+          shadow: true,
+          stroke: new Stroke({
+            width: 3,
+            color: '#fff',
+          }),
+        }),
+        text: new Text({
+          text: `${size}`,
+          font: 'bold 12px helvetica,sans-serif',
+          offsetX: 20,
+          offsetY: -20,
+          fill: new Fill({
+            color: '#000',
+          }),
+        }),
+      });
+    }
+  }
 
   //   创建地图及图层
   function createMap() {
     map = new Map({
-      target: "map-container",
-      layers: [layerAdd("street")],
+      target: 'map-container',
+      layers: [layerAdd('street')],
       view: new View({
         center: fromLonLat([110, 39]),
         zoom: 12,
@@ -53,59 +94,12 @@ export function initialMap() {
       }),
       controls: [new ZoomSlider(), new Zoom()],
     });
-    map.on("loadstart", loadStartEvtHandler);
-    map.on("rendercomplete", loadCompleteEvtHandler);
+    map.on('loadstart', loadStartEvtHandler);
+    map.on('rendercomplete', loadCompleteEvtHandler);
     window.map = map;
     bindClickEvt();
   }
 
-  //   创建样式
-  function genStyle(text = "", iconPath = thumbUrl + "3c42f1c8befeeb7b.png") {
-    return new Style({
-      image: new Photo({
-        src: iconPath,
-        radius: 20,
-        crop: true,
-        shadow: 5,
-        stroke: new Stroke({
-          width: 3,
-          color: "#fff"
-        })
-      }),
-      // image: new Icon({
-      //   anchor: [0.5, 60],
-      //   anchorOrigin: "top-right",
-      //   anchorXUnits: "fraction",
-      //   anchorYUnits: "pixels",
-      //   offsetOrigin: "top-right",
-      //   // offset:[0,10],
-      //   //图标缩放比例
-      //   scale: 0.5,
-      //   //透明度
-      //   opacity: 0.75,
-      //   //图标的url
-      //   src: iconPath,
-      //   // width: 40,
-      // }),
-      // text: new Text({
-      //   //文本内容
-      //   text: text + "",
-      //   //位置
-      //   textAlign: "center",
-      //   justify: "center",
-      //   offsetX: 15,
-      //   offsetY: -10,
-      //   placement: "point",
-      //   //基准线
-      //   textBaseline: "middle",
-      //   //文字样式
-      //   font: "normal 12px 微软雅黑",
-      //   //文本填充样式（即文字颜色）
-      //   fill: new Fill({ color: "#000" }),
-      // }),
-      // fill: new Fill({ color: "blue" }),
-    });
-  }
   function loadCompleteEvtHandler(evt) {
     state.loading = false;
   }
@@ -114,68 +108,67 @@ export function initialMap() {
   }
   onBeforeUnmount(() => {
     // 解除监听
-    map.un("rendercomplete", loadCompleteEvtHandler);
-    map.un("loadstart", loadCompleteEvtHandler);
-    map.un("click");
+    map.un('rendercomplete', loadCompleteEvtHandler);
+    map.un('loadstart', loadCompleteEvtHandler);
+    map.un('click');
   });
 
   //   加载点资源
   function loadPhoto(data) {
-    console.log(state.mapConfig.autoCenter)
+    console.log(state.mapConfig.autoCenter);
     try {
       // 创建矢量数据源
       let vecSource = new VectorSource({
-        title: "poi",
+        title: 'poi',
         features: new GeoJSON().readFeatures(data),
         wrapX: false,
       });
-      //   创建聚合数据源
-      let clusterSource = new Cluster({
+      var newClusterSource = new Cluster({
         distance: state.mapConfig.tolerance,
         source: vecSource,
       });
-      //   创建图层
-      clusterLyr = new VectorLayer({
-        name: "maphoto",
-        zIndex: 99,
-        source: clusterSource,
+      clusterLyr = new AnimatedCluster({
+        name: 'maphoto',
+        source: newClusterSource,
+        // maxResolution: 40,
         style: (feature, resolution) => {
-          var clusterFeats = feature.get("features");
+          var clusterFeats = feature.get('features');
           const size = clusterFeats.length;
-          return genStyle(size, thumbUrl + clusterFeats[0].get("icon"));
+          const icon = clusterFeats[0].get('icon');
+          // console.log('icon:' + icon);
+          return genStyle(size, thumbUrl + icon);
         },
       });
-      //   添加图层
+      
       map.addLayer(clusterLyr);
       //   定位图层
-      if(state.mapConfig.autoCenter) {
+      if (state.mapConfig.autoCenter) {
         map.getView().fit(vecSource.getExtent(), map.getSize());
-      } else{
-        let vw = map.getView()
+      } else {
+        let vw = map.getView();
         vw.setCenter(fromLonLat([state.mapConfig.lon, state.mapConfig.lat]));
-        vw.setZoom(state.mapConfig.maxZoom)
-        
+        vw.setZoom(state.mapConfig.maxZoom);
       }
-    } catch(err) {
-      Notify.warning("无照片:" + err);
+    } catch (err) {
+      Notify.warning('无照片:' + err);
     }
   }
 
   //   绑定点击事件
   function bindClickEvt() {
-    map.on("click", (event) => {
+    map.on('click', event => {
       state.popup.srcs.length = 0;
       clusterLyr
         .getFeatures(event.pixel)
-        .then((clusterFeat) => {
+        .then(clusterFeat => {
           if (clusterFeat.length > 0) {
             state.popup.open = true;
-            const features = clusterFeat[0].get("features");
+            const features = clusterFeat[0].get('features');
             if (features.length > 0) {
-              features.forEach((feat) => {
-                const srcs = feat.get("srcs");
+              features.forEach(feat => {
+                const srcs = feat.get('srcs');
                 if (srcs) {
-                  srcs.split("/").forEach((src) => {
+                  srcs.split('/').forEach(src => {
                     state.popup.srcs.push(photoUrl + src);
                   });
                 }
@@ -185,14 +178,14 @@ export function initialMap() {
             state.popup.open = false;
           }
         })
-        .catch((error) => {
-          alert("错误:" + error);
+        .catch(error => {
+          alert('错误:' + error);
         });
     });
   }
   watch(
     () => state.mapConfig,
-    (val) => {
+    val => {
       if (!map) return;
       let view = map.getView();
       if (val.maxZoom) view.setMaxZoom(val.maxZoom);
