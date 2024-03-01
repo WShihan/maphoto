@@ -4,12 +4,12 @@ import NProgress from "nprogress";
 
 let baseUrl = process.env.VUE_APP_BASE_URL;
 
-export function getMapInitialConfig({ name }) {
+export function getMapInitialConfig({ name="wsh" }) {
   NProgress.start();
   return new Promise((resolve, reject) => {
     axios
       .request({
-        url: baseUrl + "/maphoto/view/" + name,
+        url: baseUrl + "/maphoto/init/" + name,
         method: "get",
       })
       .then((response) => {

@@ -8,6 +8,7 @@ import { layerAdd } from "@/utils/layerManager";
 import { Style, Stroke, Text, Icon, Fill } from "ol/style";
 import { GeoJSON } from "ol/format";
 import { Notify } from "@/utils/notify";
+import Photo from "ol-ext/style/Photo"
 
 export function initialMap() {
   // 初始化参数
@@ -61,40 +62,48 @@ export function initialMap() {
   //   创建样式
   function genStyle(text = "", iconPath = thumbUrl + "3c42f1c8befeeb7b.png") {
     return new Style({
-      image: new Icon({
-        anchor: [0.5, 60],
-        anchorOrigin: "top-right",
-        anchorXUnits: "fraction",
-        anchorYUnits: "pixels",
-        offsetOrigin: "top-right",
-        // offset:[0,10],
-        //图标缩放比例
-        scale: 0.5,
-        //透明度
-        opacity: 0.75,
-        //图标的url
+      image: new Photo({
         src: iconPath,
-        // width: 40,
+        radius: 20,
+        crop: true,
+        shadow: 5,
+        stroke: new Stroke({
+          width: 3,
+          color: "#fff"
+        })
       }),
-      text: new Text({
-        //文本内容
-        text: text + "",
-        //位置
-        textAlign: "center",
-        justify: "center",
-        offsetX: 15,
-        offsetY: -20,
-        placement: "point",
-        //基准线
-        textBaseline: "middle",
-        //文字样式
-        font: "normal 12px 微软雅黑",
-        //文本填充样式（即文字颜色）
-        fill: new Fill({ color: "#fff" }),
-        // stroke: new Stroke({ color: "#gray", width: 0 }),
-        // backgroundFill: new Fill({ color: "#fff" }),
-      }),
-      fill: new Fill({ color: "blue" }),
+      // image: new Icon({
+      //   anchor: [0.5, 60],
+      //   anchorOrigin: "top-right",
+      //   anchorXUnits: "fraction",
+      //   anchorYUnits: "pixels",
+      //   offsetOrigin: "top-right",
+      //   // offset:[0,10],
+      //   //图标缩放比例
+      //   scale: 0.5,
+      //   //透明度
+      //   opacity: 0.75,
+      //   //图标的url
+      //   src: iconPath,
+      //   // width: 40,
+      // }),
+      // text: new Text({
+      //   //文本内容
+      //   text: text + "",
+      //   //位置
+      //   textAlign: "center",
+      //   justify: "center",
+      //   offsetX: 15,
+      //   offsetY: -10,
+      //   placement: "point",
+      //   //基准线
+      //   textBaseline: "middle",
+      //   //文字样式
+      //   font: "normal 12px 微软雅黑",
+      //   //文本填充样式（即文字颜色）
+      //   fill: new Fill({ color: "#000" }),
+      // }),
+      // fill: new Fill({ color: "blue" }),
     });
   }
   function loadCompleteEvtHandler(evt) {

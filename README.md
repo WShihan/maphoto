@@ -9,7 +9,7 @@
 * 照片聚合。
 * 地图可特别配置。
 
-[点击demo预览](https://www.xiemolin233.cn/webapp/maphoto) ==仅支持移动端访问== :iphone:
+[点击demo预览](https://www.wsh233.cn/webapp/maphoto)
 
 
 

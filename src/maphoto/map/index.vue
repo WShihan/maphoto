@@ -9,14 +9,14 @@
 </template>
 
 <script>
-import { initialMap } from "./index.js";
-import Looker from "./components/Looker.vue";
-import { getMapInitialConfig } from "@/apis";
-import Loading from "@/components/Loading.vue";
-import { Notify } from "@/utils/notify";
+import { initialMap } from './index.js';
+import Looker from './components/Looker.vue';
+import { getMapInitialConfig } from '@/apis';
+import Loading from '@/components/Loading.vue';
+import { Notify } from '@/utils/notify';
 
 export default {
-  name: "Map",
+  name: 'Map',
   props: {},
   data() {
     return {};
@@ -26,16 +26,17 @@ export default {
     return initialMap();
   },
   mounted() {
-    const name = this.$route.params.name;
+    let name = this.$route.params.name;
+    name = name == '' ? 'wsh' : name;
     this.createMap();
     getMapInitialConfig({ name: name })
-      .then((res) => {
+      .then(res => {
         if (res.data.status) {
           Object.assign(this.mapConfig, res.data.data.config);
           this.loadPhoto(res.data.data.features);
         } else throw res.data.msg;
       })
-      .catch((err) => {
+      .catch(err => {
         Notify.warning(err);
       });
   },
