@@ -138,7 +138,7 @@ export function initialMap() {
           return genStyle(size, thumbUrl + icon);
         },
       });
-      
+
       map.addLayer(clusterLyr);
       //   定位图层
       if (state.mapConfig.autoCenter) {
@@ -166,9 +166,10 @@ export function initialMap() {
             if (features.length > 0) {
               features.forEach(feat => {
                 const srcs = feat.get('srcs');
+                const date = feat.get('date').slice(0, 10);
                 if (srcs) {
                   srcs.split('/').forEach(src => {
-                    state.popup.srcs.push(photoUrl + src);
+                    state.popup.srcs.push({ date, src: photoUrl + src });
                   });
                 }
               });

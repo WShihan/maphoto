@@ -1,25 +1,29 @@
 <template>
   <div class="looker">
-    <div class="looker-inner">
-      <img v-for="(src, k) in srcs" :key="k" :src="src" v-show="currentSrcIndex === k" />
+    <div class="header">
+      <div class="date">
+        <span>{{ srcs[currentSrcIndex].date }}</span>
+      </div>
+      <div class="close btn" @click="this.$emit('close')">
+        <span class="icon">⌫</span>
+      </div>
     </div>
-    <div class="btn close" @click="this.$emit('close')">
-      <i class="icon iconfont icon-close"></i>
+    <div class="looker-inner">
+      <img v-for="(src, i) in srcs" :key="i" :src="src.src" v-show="currentSrcIndex === i" />
     </div>
     <div class="img-handle">
       <div class="btn left" @click="backwardLook">
-        <i class="icon iconfont icon-left"></i>
+        <span class="icon">◀</span>
       </div>
       <div class="tip">
         <div
           :class="['tip-item', k === currentSrcIndex ? 'active' : '']"
-          :title="k"
           v-for="(item, k) in srcs"
-          :key="k"
+          :key="k.src"
         ></div>
       </div>
       <div class="btn right" @click="towardLook">
-        <i class="icon iconfont icon-right"></i>
+        <span class="icon">▶</span>
       </div>
     </div>
   </div>
@@ -27,13 +31,16 @@
 
 <script>
 export default {
-  name: "Looker",
+  name: 'Looker',
   props: {
     srcs: {
       type: Array,
       default: () => {
         return [
-          "https://md-1301600412.cos.ap-nanjing.myqcloud.com/pic/image-20220328152305216.png",
+          {
+            date: '2024-01-01',
+            src: 'https://md-1301600412.cos.ap-nanjing.myqcloud.com/pic/image-20220328152305216.png',
+          },
         ];
       },
     },
@@ -59,8 +66,6 @@ export default {
       }
     },
   },
-  watch: {},
-  computed: {},
 };
 </script>
 
@@ -68,25 +73,27 @@ export default {
 @--btn-size: 0.8rem;
 @--btn-color: rgb(18, 150, 219);
 .looker {
+  display: flex;
   z-index: 1000;
   position: absolute;
-  width: 100vw;
-  top: 6vh;
-  min-height: 25%;
-  padding: 0.5vw 0vw;
-  margin: 0 auto;
-  border-radius: 1vw;
-  background: rgba(35, 38, 55, 0.932);
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background: #fff;
   .looker-inner {
+    flex: 1;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    padding: 2vw;
     img {
-      width: 99%;
+      flex: 1;
+      display: block;
+      width: 100%;
       margin: 0 auto;
+      border-radius: 0.5vw;
     }
   }
   .btn {
@@ -98,9 +105,12 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    i {
+    .icon {
+      font-size: 8vw;
       color: @--btn-color;
-      font-size: @--btn-size;
+      &:hover {
+        color: gray;
+      }
     }
   }
   .img-handle {
@@ -133,16 +143,22 @@ export default {
       }
     }
   }
-  .close {
+  .header {
+    display: flex;
+    justify-content: space-between;
     position: absolute;
-    top: 80%;
     top: 1vw;
-    right: 2vw;
-    width: 6vw;
-    cursor: pointer;
-    i {
-      color: @--btn-color;
-      font-size: @--btn-size;
+    left: 0vw;
+    width: 100vw;
+    .date {
+      width: 100%;
+      font-weight: bold;
+    }
+    .close {
+      position: absolute;
+      right: 6vw;
+      width: 2vw;
+      cursor: pointer;
     }
   }
 }
