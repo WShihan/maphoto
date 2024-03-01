@@ -1,11 +1,10 @@
 import { reactive, toRefs, watch, onBeforeUnmount } from 'vue';
 import { Map, View } from 'ol';
-import { Vector as VectorLayer } from 'ol/layer';
 import { ZoomSlider, Zoom } from 'ol/control';
 import { Vector as VectorSource, Cluster } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { layerAdd } from '@/utils/layerManager';
-import { Style, Stroke, Text, Icon, Fill, RegularShape } from 'ol/style';
+import { Style, Stroke, Text, Fill } from 'ol/style';
 import { GeoJSON } from 'ol/format';
 import { Notify } from '@/utils/notify';
 import Photo from 'ol-ext/style/Photo';
@@ -47,7 +46,7 @@ export function initialMap() {
           src: src,
           radius: 20,
           crop: true,
-          kind: size > 1 ? 'folio' : 'square',
+          kind: 'square',
           shadow: true,
           stroke: new Stroke({
             width: 3,
@@ -61,7 +60,7 @@ export function initialMap() {
           src: src,
           radius: 20,
           crop: true,
-          kind: size > 1 ? 'folio' : 'square',
+          kind: 'folio',
           shadow: true,
           stroke: new Stroke({
             width: 3,
