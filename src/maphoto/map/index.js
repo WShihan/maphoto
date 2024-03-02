@@ -23,6 +23,7 @@ export function initialMap() {
       lat: null,
       link: null,
       lon: null,
+      zoom: 2,
       maxZoom: 16,
       minZoom: 3,
       note: null,
@@ -87,7 +88,7 @@ export function initialMap() {
       layers: [layerAdd('street')],
       view: new View({
         center: fromLonLat([110, 39]),
-        zoom: 12,
+        zoom: state.mapConfig.zoom,
         maxZoom: state.mapConfig.maxZoom,
         minZoom: state.mapConfig.minZoom,
       }),
@@ -188,6 +189,7 @@ export function initialMap() {
     val => {
       if (!map) return;
       let view = map.getView();
+      if(val.zoom) view.setZoom(val.zoom)
       if (val.maxZoom) view.setMaxZoom(val.maxZoom);
       if (val.minZoom) view.setMinZoom(val.minZoom);
     },
