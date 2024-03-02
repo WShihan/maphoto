@@ -129,6 +129,7 @@ export function initialMap() {
       });
       clusterLyr = new AnimatedCluster({
         name: 'maphoto',
+        zIndex: 999,
         source: newClusterSource,
         // maxResolution: 40,
         style: (feature, resolution) => {

@@ -89,7 +89,7 @@ export function layerAdd(name) {
     case MapEnum.Satellite:
       return new Tile({
         name: name,
-        zIndex: 0,
+        zIndex: 99,
         source: new ArcgisSource({
           url: "https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer",
         }),
@@ -97,7 +97,7 @@ export function layerAdd(name) {
     case MapEnum.Street:
       return new Tile({
         name: name,
-        zIndex: 0,
+        zIndex: 99,
         source: new XYZ({
           url: "https://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
         }),
@@ -105,7 +105,7 @@ export function layerAdd(name) {
     case MapEnum.WaterColor:
       return new Tile({
         name: name,
-        zIndex: 0,
+        zIndex: 99,
         source: new Stamen({
           layer: "watercolor",
         }),
@@ -144,7 +144,7 @@ export function layerAddPhoto() {
       //   创建图层
       let clusterLyr = new VectorLayer({
         name: "maphoto",
-        zIndex: 99,
+        zIndex: 0,
         source: clusterSource,
         style: (feature, resolution) => {
           var size = feature.get("features").length;
