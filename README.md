@@ -9,7 +9,7 @@
 * 照片聚合。
 * 地图可特别配置。
 
-<img style="width:40%;margin: 5% auto;" src="https://md-1301600412.cos.ap-nanjing.myqcloud.com/pic/typora/WechatIMG499.png" alt="WechatIMG499" />
+<img style="display:block;width:40%;margin: 5% auto;" src="https://md-1301600412.cos.ap-nanjing.myqcloud.com/pic/typora/WechatIMG499.png" alt="WechatIMG499" />
 
 [点击demo预览](https://www.wsh233.cn/webapp/maphoto)
 
