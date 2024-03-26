@@ -1,6 +1,6 @@
 # maphoto
 
-![GitHub Repo stars](https://img.shields.io/github/stars/WShihan/maphoto?style=social)![GitHub repo size](https://img.shields.io/github/repo-size/WShihan/maphoto?style=plastic)![GitHub](https://img.shields.io/github/license/WShihan/maphoto)![GitHub last commit](https://img.shields.io/github/last-commit/WShihan/maphoto?style=plastic)![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/WShihan/maphoto)
+![GitHub Repo stars](https://img.shields.io/github/stars/WShihan/maphoto?style=plastic)![GitHub repo size](https://img.shields.io/github/repo-size/WShihan/maphoto?style=plastic)![GitHub](https://img.shields.io/github/license/WShihan/maphoto)![GitHub last commit](https://img.shields.io/github/last-commit/WShihan/maphoto?style=plastic)![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/WShihan/maphoto)
 
 一个练手小WebGIS项目，基于Vue3编写的仿iOS相册的地图应用，将照片导进地图展示，特点如下：
 
@@ -8,6 +8,8 @@
 * 多照片浏览。
 * 照片聚合。
 * 地图可特别配置。
+
+<img style="width:40%;margin: 5% auto;" src="https://md-1301600412.cos.ap-nanjing.myqcloud.com/pic/typora/WechatIMG499.png" alt="WechatIMG499" />
 
 [点击demo预览](https://www.wsh233.cn/webapp/maphoto)
 
