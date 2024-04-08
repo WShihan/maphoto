@@ -67,16 +67,7 @@ export function initialMap() {
             width: 3,
             color: '#fff',
           }),
-        }),
-        text: new Text({
-          text: `${size}`,
-          font: 'bold 12px helvetica,sans-serif',
-          offsetX: 20,
-          offsetY: -20,
-          fill: new Fill({
-            color: '#000',
-          }),
-        }),
+        })
       });
     }
   }
